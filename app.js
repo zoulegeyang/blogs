@@ -16,29 +16,33 @@ const morgan = require('morgan')
 //     app.use(morgan('dev'))
 // }
 console.log(process.env.NODE_ENV)
-    //模板的方法  模板可以直接使用这些方法
+//模板的方法  模板可以直接使用这些方法
 const template = require('art-template')
 template.defaults.imports.dateformat = dateformat
 
 //请求相关
 const bodyParser = require('body-parser')
-app.use(bodyParser.urlencoded({ extended: false }))
-    //导入路由
+app.use(bodyParser.urlencoded({
+    extended: false
+}))
+//导入路由
 const home = require('./router/home')
 const admin = require('./router/admin')
-    //session和cooKie
+//session和cooKie
 const session = require('express-session')
 app.use(session({
-        secret: 'secret key',
-        resave: false,
-        saveUninitialized: false,
-        cookie:{
-            maxAge:24*60*60*1000  //以毫秒为单位设置cookie的过期时间. 这样当这次会话结束以后下次还是以登录的状态访问
-        }
-    })) //该中间件会把req上添加session属性.会给客户端返回一个cookie,那个cookie有这条数据的唯一标识
-    //数据库
+    secret: 'secret key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 24 * 60 * 60 * 1000 //以毫秒为单位设置cookie的过期时间. 这样当这次会话结束以后下次还是以登录的状态访问
+    }
+})) //该中间件会把req上添加session属性.会给客户端返回一个cookie,那个cookie有这条数据的唯一标识
+//数据库
 require('./model/connect')
-const { user } = require('./model/users')
+const {
+    user
+} = require('./model/users')
 
 //配置模板引擎
 app.set('views', path.join(__dirname, 'views'))
